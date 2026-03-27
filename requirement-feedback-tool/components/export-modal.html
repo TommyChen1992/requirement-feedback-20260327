@@ -1,0 +1,104 @@
+<!-- 导出弹窗组件 -->
+<div class="modal-overlay" id="exportModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">📥 导出数据</h2>
+            <button class="close-btn" onclick="closeExportModal()">×</button>
+        </div>
+
+        <div class="modal-body">
+            <!-- 导出范围 -->
+            <div class="form-section">
+                <h3 class="section-title">导出范围</h3>
+                <div class="radio-group">
+                    <label class="radio-item selected">
+                        <input type="radio" name="exportScope" value="filtered" checked>
+                        <div class="radio-label">
+                            <strong>当前筛选结果</strong>
+                            <div class="radio-hint">导出当前筛选条件下的记录</div>
+                        </div>
+                    </label>
+                    <label class="radio-item">
+                        <input type="radio" name="exportScope" value="all">
+                        <div class="radio-label">
+                            <strong>全部数据</strong>
+                            <div class="radio-hint">导出所有需求记录</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 导出字段 -->
+            <div class="form-section">
+                <h3 class="section-title">导出字段</h3>
+                <div class="field-grid">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="fields" value="requirement_no" checked>
+                        <span class="checkbox-label">需求编号</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="fields" value="user_name" checked>
+                        <span class="checkbox-label">反馈人</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="fields" value="department_name" checked>
+                        <span class="checkbox-label">部门</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="fields" value="requirement_type" checked>
+                        <span class="checkbox-label">需求类型</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="fields" value="priority" checked>
+                        <span class="checkbox-label">优先级</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="fields" value="description" checked>
+                        <span class="checkbox-label">需求描述</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="fields" value="created_at" checked>
+                        <span class="checkbox-label">提交时间</span>
+                    </label>
+                </div>
+                <div class="field-actions">
+                    <button type="button" class="btn btn-link" onclick="selectAllFields()">全选</button>
+                    <button type="button" class="btn btn-link" onclick="deselectAllFields()">取消全选</button>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-content">
+                    <span class="warning-icon">⚠️</span>
+                    <div class="warning-text">
+                        单次导出上限为 10,000 条记录，同一用户 1 分钟内最多导出 1 次。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeExportModal()">取消</button>
+            <button class="btn btn-primary" onclick="startExport()">开始导出</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function closeExportModal() {
+        document.getElementById('exportModal').classList.remove('active');
+    }
+
+    function selectAllFields() {
+        document.querySelectorAll('input[name="fields"]').forEach(cb => cb.checked = true);
+    }
+
+    function deselectAllFields() {
+        document.querySelectorAll('input[name="fields"]').forEach(cb => cb.checked = false);
+    }
+
+    function startExport() {
+        // 导出逻辑
+        console.log('开始导出');
+    }
+</script>

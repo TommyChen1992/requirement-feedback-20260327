@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据导出 - 内部产品需求反馈工具</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/form.css">
+</head>
+<body>
+    <!-- 导出弹窗 -->
+    <div class="modal-overlay active" id="exportModal" style="position: fixed;">
+        <div class="modal">
+            <!-- 弹窗头部 -->
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <span>📥</span> 导出数据
+                </h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+
+            <!-- 弹窗主体 - 表单 -->
+            <div class="modal-body" id="exportForm">
+                <!-- 导出范围 -->
+                <div class="form-section">
+                    <h3 class="section-title">导出范围</h3>
+                    <div class="radio-group">
+                        <label class="radio-item selected">
+                            <input type="radio" name="exportScope" value="filtered" checked>
+                            <div class="radio-label">
+                                <strong>当前筛选结果</strong>
+                                <div class="radio-hint">导出当前筛选条件下的 158 条记录</div>
+                            </div>
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="exportScope" value="all">
+                            <div class="radio-label">
+                                <strong>全部数据</strong>
+                                <div class="radio-hint">导出所有需求记录，共 2,458 条</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 导出字段 -->
+                <div class="form-section">
+                    <h3 class="section-title">导出字段</h3>
+                    <div class="field-grid" id="fieldGrid">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="requirement_no" checked>
+                            <span class="checkbox-label">需求编号</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="user_name" checked>
+                            <span class="checkbox-label">反馈人</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="user_email" checked>
+                            <span class="checkbox-label">反馈人邮箱</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="department_name" checked>
+                            <span class="checkbox-label">部门</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="requirement_type" checked>
+                            <span class="checkbox-label">需求类型</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="priority" checked>
+                            <span class="checkbox-label">优先级</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="description" checked>
+                            <span class="checkbox-label">需求描述</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="attachment_count" checked>
+                            <span class="checkbox-label">附件数量</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="attachment_list">
+                            <span class="checkbox-label">附件列表</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="created_at" checked>
+                            <span class="checkbox-label">提交时间</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="status">
+                            <span class="checkbox-label">处理状态</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="fields" value="updated_at">
+                            <span class="checkbox-label">更新时间</span>
+                        </label>
+                    </div>
+                    <div class="field-actions">
+                        <button type="button" class="btn btn-link" onclick="selectAllFields()">全选</button>
+                        <button type="button" class="btn btn-link" onclick="deselectAllFields()">取消全选</button>
+                    </div>
+                </div>
+
+                <!-- 导出限制提示 -->
+                <div class="warning-box">
+                    <div class="warning-content">
+                        <span class="warning-icon">⚠️</span>
+                        <div class="warning-text">
+                            单次导出上限为 10,000 条记录，同一用户 1 分钟内最多导出 1 次。如数据量过大，建议增加筛选条件后分批导出。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 进度提示 -->
+            <div class="progress-section" id="progressSection" style="display: none; text-align: center; padding: 32px 24px;">
+                <div class="progress-icon" style="font-size: 48px; margin-bottom: 16px; animation: spin 1s linear infinite;">⏳</div>
+                <h3 class="progress-title" style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">正在生成导出文件</h3>
+                <p class="progress-desc" style="font-size: 14px; color: var(--text-secondary); margin-bottom: 24px;">请稍候，数据量较大时可能需要一些时间</p>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
+                <p class="progress-text" id="progressText" style="font-size: 13px; color: var(--text-secondary);">准备中... 0%</p>
+            </div>
+
+            <!-- 成功状态 -->
+            <div class="success-section" id="successSection" style="display: none; text-align: center; padding: 32px 24px;">
+                <div class="success-icon" style="width: 64px; height: 64px; margin: 0 auto 24px; background: var(--success-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: white;">✓</div>
+                <h3 class="success-title" style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">导出成功</h3>
+                <p class="success-desc" style="font-size: 14px; color: var(--text-secondary); margin-bottom: 24px;">文件已生成，请点击下方按钮下载</p>
+                <div class="download-info" style="background: var(--bg-gray); border-radius: 4px; padding: 16px; margin-bottom: 24px;">
+                    <div class="download-item" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: white; border-radius: 4px;">
+                        <div class="download-icon" style="font-size: 24px;">📊</div>
+                        <div class="download-details" style="flex: 1; text-align: left;">
+                            <div class="download-name" style="font-size: 14px; margin-bottom: 4px;">需求反馈_20260327103200.xlsx</div>
+                            <div class="download-meta" style="font-size: 12px; color: var(--text-secondary);">158 条记录 · 256 KB</div>
+                        </div>
+                        <button class="download-btn" onclick="downloadFile()" style="padding: 8px 16px; background: var(--netease-red); color: white; border: none; border-radius: 4px; font-size: 13px; cursor: pointer;">下载</button>
+                    </div>
+                </div>
+                <p class="expire-hint" style="font-size: 12px; color: var(--warning-color); margin-top: 12px;">⏰ 下载链接将在 1 小时后过期，请及时下载</p>
+            </div>
+
+            <!-- 弹窗底部 -->
+            <div class="modal-footer" id="modalFooter">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" id="exportBtn" onclick="startExport()">开始导出</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="config/index.js"></script>
+    <script src="mock/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="api/index.js"></script>
+    <script src="js/export.js"></script>
+</body>
+</html>

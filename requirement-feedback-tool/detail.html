@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>需求详情 - 内部产品需求反馈工具</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/comment.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">内部产品需求反馈工具</a>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">陈</div>
+                <span id="userName">chenzhenwei01</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="container container-narrow">
+        <!-- 面包屑 -->
+        <div class="breadcrumb">
+            <a href="list.html">需求列表</a>
+            <span class="separator">/</span>
+            <span class="current">需求详情</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 380px; gap: 24px;">
+            <!-- 需求详情 -->
+            <div class="card">
+                <div class="card-header" style="flex-direction: column; align-items: flex-start; gap: 16px;">
+                    <div>
+                        <div class="requirement-no" id="requirementNo">REQ-20260327-001</div>
+                        <h1 class="detail-title" id="requirementTitle" style="font-size: 20px; font-weight: 600; margin-top: 8px;">
+                            优化企业邮箱移动端邮件搜索功能，支持按发件人、时间范围、附件类型等多条件组合搜索
+                        </h1>
+                    </div>
+                    <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                        <div class="meta-item" style="display: flex; align-items: center; gap: 8px;">
+                            <span class="meta-label" style="color: var(--text-secondary);">反馈人：</span>
+                            <span class="meta-value" id="userNameDisplay">chenzhenwei01</span>
+                        </div>
+                        <div class="meta-item" style="display: flex; align-items: center; gap: 8px;">
+                            <span class="meta-label" style="color: var(--text-secondary);">部门：</span>
+                            <span class="tag" id="departmentName">产品部</span>
+                        </div>
+                        <div class="meta-item" style="display: flex; align-items: center; gap: 8px;">
+                            <span class="meta-label" style="color: var(--text-secondary);">类型：</span>
+                            <span class="tag" id="requirementType">功能优化</span>
+                        </div>
+                        <div class="meta-item" style="display: flex; align-items: center; gap: 8px;">
+                            <span class="meta-label" style="color: var(--text-secondary);">提交时间：</span>
+                            <span class="meta-value" id="createdAt">2026-03-27 10:30:00</span>
+                        </div>
+                        <div class="meta-item" style="display: flex; align-items: center; gap: 8px;">
+                            <span class="meta-label" style="color: var(--text-secondary);">状态：</span>
+                            <span class="tag" id="status">已提交</span>
+                        </div>
+                    </div>
+                    <div style="position: absolute; top: 24px; right: 24px;">
+                        <span class="priority-badge priority-p1" id="priority">P1</span>
+                    </div>
+                </div>
+
+                <!-- 需求描述 -->
+                <div class="detail-section" style="margin-bottom: 24px;">
+                    <h2 class="section-title" style="font-size: 16px; font-weight: 600; margin-bottom: 12px; padding-left: 12px; border-left: 3px solid var(--netease-red);">需求描述</h2>
+                    <div class="detail-content" id="description" style="font-size: 14px; line-height: 1.8; padding: 16px; background: var(--bg-gray); border-radius: 4px;">
+                        <!-- 动态渲染 -->
+                    </div>
+                </div>
+
+                <!-- 附件 -->
+                <div class="detail-section" style="margin-bottom: 24px;">
+                    <h2 class="section-title" style="font-size: 16px; font-weight: 600; margin-bottom: 12px; padding-left: 12px; border-left: 3px solid var(--netease-red);">附件（<span id="attachmentCount">2</span>）</h2>
+                    <div class="attachment-list" id="attachmentList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+                        <!-- 动态渲染 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <div class="comments-header">
+                    <h2 class="comments-title">评论互动</h2>
+                    <span class="comments-count">共 3 条评论</span>
+                </div>
+
+                <!-- 评论列表 -->
+                <div class="comments-list">
+                    <!-- 动态渲染 -->
+                </div>
+
+                <!-- 评论输入 -->
+                <div class="comment-input-section">
+                    <div class="comment-input-wrapper">
+                        <div class="comment-editor" id="commentEditor" contenteditable="true" data-placeholder="发表评论，支持@提及同事..."></div>
+                        <div class="comment-toolbar">
+                            <button class="toolbar-btn" onclick="formatComment('bold')"><b>B</b></button>
+                            <button class="toolbar-btn" onclick="formatComment('italic')"><i>I</i></button>
+                            <button class="toolbar-btn" onclick="insertMention()">@提及</button>
+                            <button class="toolbar-btn" onclick="insertEmoji()">😊 表情</button>
+                        </div>
+                    </div>
+                    <div class="comment-footer">
+                        <span class="comment-hint">评论将在提交后显示，5 分钟内可编辑删除</span>
+                        <button class="submit-comment-btn" onclick="submitComment()">发表评论</button>
+                    </div>
+                </div>
+
+                <!-- 权限提示 -->
+                <div class="permission-tip" id="permissionTip">
+                    <div class="permission-tip-content">
+                        ⚠️ 您暂无权限查看评论和发表评论，仅需求提交人和产品管理员可见
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="config/index.js"></script>
+    <script src="mock/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="api/index.js"></script>
+    <script src="js/comment.js"></script>
+    
+    <script>
+        // 加载需求详情
+        document.addEventListener('DOMContentLoaded', function() {
+            const requirementId = Utils.getUrlParam('id') || '1';
+            const detail = MockData.requirementDetail;
+            
+            if (detail) {
+                document.getElementById('requirementNo').textContent = detail.requirement_no;
+                document.getElementById('requirementTitle').textContent = detail.description.substring(0, 50) + '...';
+                document.getElementById('userNameDisplay').textContent = detail.user.name;
+                document.getElementById('departmentName').textContent = detail.department.name;
+                document.getElementById('requirementType').textContent = detail.requirement_type === 'feature_optimization' ? '功能优化' : detail.requirement_type;
+                document.getElementById('createdAt').textContent = detail.created_at;
+                document.getElementById('status').textContent = detail.status === 'submitted' ? '已提交' : detail.status;
+                document.getElementById('priority').textContent = detail.priority;
+                document.getElementById('priority').className = 'priority-badge priority-' + detail.priority.toLowerCase();
+                document.getElementById('description').innerHTML = detail.description;
+                document.getElementById('attachmentCount').textContent = detail.attachments.length;
+                
+                // 渲染附件
+                const attachmentList = document.getElementById('attachmentList');
+                attachmentList.innerHTML = detail.attachments.map(att => `
+                    <div class="attachment-item" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-gray); border-radius: 4px; cursor: pointer;">
+                        <div class="attachment-icon" style="font-size: 32px;">📄</div>
+                        <div class="attachment-info" style="flex: 1; overflow: hidden;">
+                            <div class="attachment-name" style="font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${att.file_name}</div>
+                            <div class="attachment-size" style="font-size: 12px; color: var(--text-secondary);">${Utils.formatFileSize(att.file_size)}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // 存储当前需求 ID 供评论模块使用
+                Utils.storage.set('rft_current_requirement_id', requirementId);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>需求提交 - 内部产品需求反馈工具</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/form.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">内部产品需求反馈工具</a>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">陈</div>
+                <span id="userName">chenzhenwei01</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="container container-narrow">
+        <div class="main-content">
+            <h1 class="page-title">提交新需求</h1>
+
+            <form id="requirementForm">
+                <!-- 反馈人 -->
+                <div class="form-group">
+                    <label class="form-label">反馈人</label>
+                    <input type="text" class="form-input" id="userName" name="userName" disabled>
+                </div>
+
+                <!-- 部门 -->
+                <div class="form-group" id="departmentGroup">
+                    <label class="form-label">
+                        <span class="required">*</span>部门
+                    </label>
+                    <select class="form-select" id="department" name="department" required>
+                        <option value="">请选择部门</option>
+                    </select>
+                    <div class="error-message">请选择所属部门</div>
+                </div>
+
+                <!-- 需求类型 -->
+                <div class="form-group" id="typeGroup">
+                    <label class="form-label">
+                        <span class="required">*</span>需求类型
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-item" data-value="feature_optimization">
+                            <input type="radio" name="requirementType" value="feature_optimization">
+                            <span class="radio-label">功能优化 - 现有功能的改进和优化</span>
+                        </label>
+                        <label class="radio-item" data-value="bug_fix">
+                            <input type="radio" name="requirementType" value="bug_fix">
+                            <span class="radio-label">Bug 修复 - 系统错误或异常问题</span>
+                        </label>
+                        <label class="radio-item" data-value="new_feature">
+                            <input type="radio" name="requirementType" value="new_feature">
+                            <span class="radio-label">新需求 - 全新的功能建议</span>
+                        </label>
+                        <label class="radio-item" data-value="experience_optimization">
+                            <input type="radio" name="requirementType" value="experience_optimization">
+                            <span class="radio-label">体验优化 - 用户体验改进建议</span>
+                        </label>
+                        <label class="radio-item" data-value="other">
+                            <input type="radio" name="requirementType" value="other">
+                            <span class="radio-label">其他 - 不属于以上分类</span>
+                        </label>
+                    </div>
+                    <div class="error-message">请选择需求类型</div>
+                </div>
+
+                <!-- 优先级 -->
+                <div class="form-group" id="priorityGroup">
+                    <label class="form-label">
+                        <span class="required">*</span>优先级
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-item" data-value="P0">
+                            <input type="radio" name="priority" value="P0">
+                            <span class="radio-label">
+                                <span class="priority-badge priority-p0">P0</span>
+                                <span class="priority-description">紧急 - 严重影响业务，需立即处理（24 小时内响应）</span>
+                            </span>
+                        </label>
+                        <label class="radio-item" data-value="P1">
+                            <input type="radio" name="priority" value="P1">
+                            <span class="radio-label">
+                                <span class="priority-badge priority-p1">P1</span>
+                                <span class="priority-description">高 - 重要功能问题，影响较多用户（3 个工作日内响应）</span>
+                            </span>
+                        </label>
+                        <label class="radio-item selected" data-value="P2">
+                            <input type="radio" name="priority" value="P2" checked>
+                            <span class="radio-label">
+                                <span class="priority-badge priority-p2">P2</span>
+                                <span class="priority-description">中 - 一般改进建议（1 周内响应）</span>
+                            </span>
+                        </label>
+                        <label class="radio-item" data-value="P3">
+                            <input type="radio" name="priority" value="P3">
+                            <span class="radio-label">
+                                <span class="priority-badge priority-p3">P3</span>
+                                <span class="priority-description">低 - 优化建议，可延后处理（2 周内响应）</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="error-message">请选择优先级</div>
+                </div>
+
+                <!-- 需求描述 -->
+                <div class="form-group" id="descriptionGroup">
+                    <label class="form-label">
+                        <span class="required">*</span>需求描述
+                    </label>
+                    <div class="rich-editor">
+                        <div class="editor-toolbar">
+                            <button type="button" class="toolbar-btn" onclick="formatText('bold')"><b>B</b></button>
+                            <button type="button" class="toolbar-btn" onclick="formatText('italic')"><i>I</i></button>
+                            <button type="button" class="toolbar-btn" onclick="formatText('underline')"><u>U</u></button>
+                            <button type="button" class="toolbar-btn" onclick="formatText('insertUnorderedList')">• 列表</button>
+                            <button type="button" class="toolbar-btn" onclick="formatText('insertOrderedList')">1. 编号</button>
+                        </div>
+                        <div class="editor-content" id="editor" contenteditable="true" data-placeholder="请详细描述您的需求，最少 20 字..."></div>
+                        <div class="char-count">
+                            <span id="charCount">0</span> / 5000 字
+                        </div>
+                    </div>
+                    <div class="error-message">请输入需求描述（20-5000 字）</div>
+                </div>
+
+                <!-- 附件上传 -->
+                <div class="form-group">
+                    <label class="form-label">附件上传（可选）</label>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">点击或拖拽文件到此处上传</div>
+                        <div class="upload-hint">支持图片（jpg/png/gif）和文档（pdf/doc/docx/xls/xlsx），单文件≤10MB，最多 5 个</div>
+                        <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.xls,.xlsx" style="display: none;">
+                    </div>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+
+                <!-- 提交按钮 -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">重置</button>
+                    <button type="submit" class="btn btn-primary">提交需求</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 成功弹窗 -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-body" style="text-align: center; padding: 40px 24px;">
+                <div class="success-icon">✓</div>
+                <h2 class="modal-title" style="margin-bottom: 16px;">提交成功</h2>
+                <p class="text-secondary" style="margin-bottom: 24px;">您的需求已提交，产品团队将尽快处理</p>
+                <div class="requirement-no">
+                    <span>需求编号：</span>
+                    <span id="requirementNo">REQ-20260327-001</span>
+                    <button class="copy-btn" onclick="copyRequirementNo()">复制</button>
+                </div>
+                <button class="btn btn-primary" onclick="closeModal()" style="margin-top: 24px; width: 100%;">查看列表</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="config/index.js"></script>
+    <script src="mock/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="api/index.js"></script>
+    <script src="js/form.js"></script>
+</body>
+</html>

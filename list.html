@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>需求列表 - 内部产品需求反馈工具</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/list.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">内部产品需求反馈工具</a>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-outline">+ 提交需求</a>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">陈</div>
+                    <span id="userName">chenzhenwei01</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="container container-wide">
+        <div class="main-content">
+            <!-- 页面头部 -->
+            <div class="page-header">
+                <h1 class="page-title" style="margin: 0; border: none; padding: 0;">需求列表</h1>
+                <button class="btn btn-outline" onclick="showExportModal()">📥 导出 Excel</button>
+            </div>
+
+            <!-- 筛选区 -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <span class="filter-label">部门：</span>
+                    <select class="filter-select" id="filterDepartment">
+                        <option value="">全部部门</option>
+                    </select>
+
+                    <span class="filter-label">需求类型：</span>
+                    <select class="filter-select" id="filterType">
+                        <option value="">全部类型</option>
+                        <option value="feature_optimization">功能优化</option>
+                        <option value="bug_fix">Bug 修复</option>
+                        <option value="new_feature">新需求</option>
+                        <option value="experience_optimization">体验优化</option>
+                        <option value="other">其他</option>
+                    </select>
+
+                    <span class="filter-label">优先级：</span>
+                    <select class="filter-select" id="filterPriority">
+                        <option value="">全部优先级</option>
+                        <option value="P0">P0 - 紧急</option>
+                        <option value="P1">P1 - 高</option>
+                        <option value="P2">P2 - 中</option>
+                        <option value="P3">P3 - 低</option>
+                    </select>
+                </div>
+
+                <div class="filter-row">
+                    <span class="filter-label">时间范围：</span>
+                    <div class="date-range">
+                        <input type="date" class="date-input" id="startDate">
+                        <span>至</span>
+                        <input type="date" class="date-input" id="endDate">
+                    </div>
+
+                    <div class="search-box" style="margin-left: auto;">
+                        <input type="text" class="search-input" id="searchInput" placeholder="搜索需求描述、反馈人、编号...">
+                        <button class="search-btn" onclick="searchRequirements()">搜索</button>
+                    </div>
+
+                    <button class="btn btn-secondary" onclick="resetFilters()" style="margin-left: 12px;">重置筛选</button>
+                </div>
+            </div>
+
+            <!-- 表格 -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>需求编号</th>
+                            <th>需求标题</th>
+                            <th class="sortable" data-sort="user_name">反馈人 <span class="sort-icon">↕</span></th>
+                            <th class="sortable" data-sort="department_name">部门 <span class="sort-icon">↕</span></th>
+                            <th>类型</th>
+                            <th class="sortable" data-sort="priority">优先级 <span class="sort-icon">↕</span></th>
+                            <th class="sortable" data-sort="created_at">提交时间 <span class="sort-icon">↕</span></th>
+                            <th>附件</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- 动态渲染 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 空状态 -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📭</div>
+                <h3 class="empty-title">暂无需求记录</h3>
+                <p class="empty-desc">当前筛选条件下没有找到任何需求</p>
+                <button class="btn btn-primary" onclick="resetFilters()">重置筛选</button>
+            </div>
+
+            <!-- 分页器 -->
+            <div class="pagination">
+                <div class="pagination-info">
+                    <!-- 动态渲染 -->
+                </div>
+                <div class="pagination-controls">
+                    <!-- 动态渲染 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="config/index.js"></script>
+    <script src="mock/data.js"></script>
+    <script src="js/common.js"></script>
+    <script src="api/index.js"></script>
+    <script src="js/list.js"></script>
+</body>
+</html>
